@@ -1,4 +1,4 @@
-package br.com.boleto.apiboleto.entity.enums;
+package br.com.boleto.valida_boleto.entity.enums;
 
 public enum SituacaoBoleto {
     INICIALIZADO,
