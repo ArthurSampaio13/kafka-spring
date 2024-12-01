@@ -6,6 +6,7 @@ import br.com.boleto.apiboleto.entity.BoletoEntity;
 import br.com.boleto.apiboleto.entity.enums.SituacaoBoleto;
 import br.com.boleto.apiboleto.mapper.BoletoMapper;
 import br.com.boleto.apiboleto.repository.BoletoRepository;
+import br.com.boleto.apiboleto.service.kafka.BoletoProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class BoletoService {
     private final BoletoRepository boletoRepository;
+    private final BoletoProducer boletoProducer;
 
     public BoletoDTO salvar(String codigoBarras) {
         var boletoOptional = boletoRepository.findByCodigoBarras(codigoBarras);
@@ -28,6 +30,9 @@ public class BoletoService {
                 .dataAtualizacao(LocalDateTime.now())
                 .build();
         boletoRepository.save(boletoEntity);
-        return BoletoMapper.toDTO(boletoEntity);
+
+        var boletoDTO = BoletoMapper.toDTO(boletoEntity);
+        boletoProducer.enviarMensagem(boletoDTO);
+        return boletoDTO;
     }
 }
