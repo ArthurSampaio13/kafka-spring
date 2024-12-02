@@ -16,8 +16,8 @@ public class BoletoMapper {
 
     public static Boleto toAVRO(BoletoEntity boletoEntity) {
         return Boleto.newBuilder()
-                .setSituacaoBoleto(boletoEntity.getSituacaoBoleto().ordinal())
                 .setCodigoBarras(boletoEntity.getCodigoBarras())
+                .setSituacaoBoleto(boletoEntity.getSituacaoBoleto().ordinal())
                 .build();
     }
 }
