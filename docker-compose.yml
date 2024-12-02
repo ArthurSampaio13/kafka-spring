@@ -58,8 +58,8 @@ services:
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
 
-  postgres_boleto:
-    container_name: boleto_postgres
+  boleto:
+    container_name: boleto
     image: postgres
     ports:
       - "5432:5432"
@@ -67,15 +67,22 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: boleto
+    networks:
+      - postgres_network
 
-  postgres_valida_boleto:
-    container_name: valida_boleto_postgres
+  validaBoleto:
+    container_name: validaBoleto
     image: postgres
     ports:
-      - "5433:5433"
+      - "5433:5432"
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: valida_boleto
+      POSTGRES_DB: validaBoleto
+    networks:
+      - postgres_network
+
+networks:
+  postgres_network:
 
 
